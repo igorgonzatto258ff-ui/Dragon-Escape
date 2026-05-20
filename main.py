@@ -6,7 +6,7 @@ limpar_tela()
 inicializarBancoDeDados()
 nome_maior, maior_pontos, dataJogada = maior_pontuador()
 pygame.init()
-
+# Marcão esteve aqui
 while True:
     nome = input("NickName:")
     if len(nome) > 0: 
