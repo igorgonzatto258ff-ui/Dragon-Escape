@@ -14,8 +14,8 @@ while True:
     else:
         print("Nome Inválido!")
         
-tamanho = (800,200)
-pygame.display.set_caption("Iron Man do Marcão")
+tamanho = (1000,700)
+pygame.display.set_caption("Dragon Escape")
 icone  = pygame.image.load("assets/icone.png")
 pygame.display.set_icon(icone)
 relogio = pygame.time.Clock()
@@ -23,13 +23,13 @@ tela = pygame.display.set_mode( tamanho )
 branco = (255, 255, 255)
 preto = (0, 0, 0)
 
-fundo = pygame.image.load("assets/background.jpg")
-fundoDead = pygame.image.load("assets/backgroundDead.jpg")
-fundoStart = pygame.image.load("assets/backgroundStart.jpg")
+fundo = pygame.image.load("assets/backgroundV2.png")
+fundoDead = pygame.image.load("assets/backgroundDead.png")
+fundoStart = pygame.image.load("assets/backgroundStart.png")
 
-iron = pygame.image.load("assets/IronMan.png")
-iron = pygame.transform.scale(iron, (116,51))
-missel = pygame.image.load("assets/missile.png")
+iron = pygame.image.load("assets/Dragon.png")
+iron = pygame.transform.scale(iron, (280,160))
+missel = pygame.image.load("assets/lança.png")
 missel = pygame.transform.scale(missel, (125,25))
 missileSound = pygame.mixer.Sound("assets/missile.wav")
 explosaoSound = pygame.mixer.Sound("assets/explosao.wav")
@@ -38,10 +38,9 @@ fonteMenu = pygame.font.SysFont("comicsans",18)
 
 def jogar():
     fundoMov1 = 0
-    fundoMov2 = 1129
-    posicaoXPersona = 0
+    fundoMov2 = 1400
+    posicaoXPersona = 180
     posicaoYPersona = 60
-    movimentoXPersona  = 0
     movimentoYPersona  = 0
     velocidadeMovPersona = 5
     posicaoXMissel = 800
@@ -64,17 +63,8 @@ def jogar():
                 movimentoYPersona = 0
             elif evento.type == pygame.KEYUP and evento.key == pygame.K_DOWN:
                 movimentoYPersona = 0
-            elif evento.type == pygame.KEYDOWN and evento.key == pygame.K_RIGHT:
-                movimentoXPersona = velocidadeMovPersona
-            elif evento.type == pygame.KEYDOWN and evento.key == pygame.K_LEFT:
-                movimentoXPersona = -velocidadeMovPersona
-            elif evento.type == pygame.KEYUP and evento.key == pygame.K_RIGHT:
-                movimentoXPersona = 0
-            elif evento.type == pygame.KEYUP and evento.key == pygame.K_LEFT:
-                movimentoXPersona = 0
-                
         
-        posicaoXPersona = posicaoXPersona + movimentoXPersona          
+                  
         posicaoYPersona = posicaoYPersona + movimentoYPersona            
         if posicaoXPersona < 0 :
             posicaoXPersona = 0
