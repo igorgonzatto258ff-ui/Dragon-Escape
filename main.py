@@ -16,24 +16,24 @@ while True:
         
 tamanho = (1000,700)
 pygame.display.set_caption("Dragon Escape")
-icone  = pygame.image.load("assets/icone.png")
+icone  = pygame.image.load("base/icone.png")
 pygame.display.set_icon(icone)
 relogio = pygame.time.Clock()
 tela = pygame.display.set_mode( tamanho ) 
 branco = (255, 255, 255)
 preto = (0, 0, 0)
 
-fundo = pygame.image.load("assets/backgroundV2.png")
-fundoDead = pygame.image.load("assets/backgroundDead.png")
-fundoStart = pygame.image.load("assets/backgroundStart.png")
+fundo = pygame.image.load("base/backgroundV2.png")
+fundoDead = pygame.image.load("base/backgroundDead.png")
+fundoStart = pygame.image.load("base/backgroundStart.png")
 
-iron = pygame.image.load("assets/Dragon.png")
+iron = pygame.image.load("base/Dragon.png")
 iron = pygame.transform.scale(iron, (280,160))
-missel = pygame.image.load("assets/lança.png")
+missel = pygame.image.load("base/lança.png")
 missel = pygame.transform.scale(missel, (125,25))
-missileSound = pygame.mixer.Sound("assets/missile.wav")
-explosaoSound = pygame.mixer.Sound("assets/explosao.wav")
-pygame.mixer.music.load("assets/ironsound.mp3")
+missileSound = pygame.mixer.Sound("base/missile.wav")
+explosaoSound = pygame.mixer.Sound("base/explosao.wav")
+pygame.mixer.music.load("base/ironsound.mp3")
 fonteMenu = pygame.font.SysFont("comicsans",18)
 
 def jogar():
