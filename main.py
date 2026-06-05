@@ -27,10 +27,10 @@ fundo = pygame.image.load("base/backgroundV2.png")
 fundoDead = pygame.image.load("base/backgroundDead.png")
 fundoStart = pygame.image.load("base/backgroundStart.png")
 
-iron = pygame.image.load("base/Dragon.png")
-iron = pygame.transform.scale(iron, (280,160))
+dragon = pygame.image.load("base/Dragon.png")
+dragon = pygame.transform.scale(dragon, (280,180))
 missel = pygame.image.load("base/lança.png")
-missel = pygame.transform.scale(missel, (125,25))
+missel = pygame.transform.scale(missel, (180,180))
 missileSound = pygame.mixer.Sound("base/missile.wav")
 explosaoSound = pygame.mixer.Sound("base/explosao.wav")
 pygame.mixer.music.load("base/ironsound.mp3")
@@ -72,8 +72,8 @@ def jogar():
             posicaoXPersona = 685
         if posicaoYPersona < 0 :
             posicaoYPersona = 0
-        elif posicaoYPersona > 150:
-            posicaoYPersona = 150
+        elif posicaoYPersona > 450:
+            posicaoYPersona = 450
             
             
         posicaoXMissel = posicaoXMissel - velocidadeMissel
@@ -82,7 +82,7 @@ def jogar():
             posicaoXMissel = 800
             pontos = pontos + 1
             velocidadeMissel = velocidadeMissel + 1
-            posicaoYMissel = random.randint(0,200)
+            posicaoYMissel = random.randint(0,1000)
                             
         tela.fill(branco)
         tela.blit(fundo, (fundoMov1,0) )
@@ -95,7 +95,7 @@ def jogar():
             fundoMov2 = 1129
         
         
-        tela.blit(iron, (posicaoXPersona,posicaoYPersona))
+        tela.blit(dragon, (posicaoXPersona,posicaoYPersona))
         tela.blit( missel, (posicaoXMissel, posicaoYMissel) )
         texto = fonteMenu.render("Pontos: "+str(pontos), True, branco)
         tela.blit(texto, (700,15))
