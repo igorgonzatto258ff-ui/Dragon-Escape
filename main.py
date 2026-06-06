@@ -1,11 +1,14 @@
 import pygame
 import random
+import pyttsx3
 from recursos.funcoes import inicializarBancoDeDados, limpar_tela, escreverDados, maior_pontuador
+from recursos.trabalho import obter_nivel
 
 limpar_tela()
 inicializarBancoDeDados()
 nome_maior, maior_pontos, dataJogada = maior_pontuador()
 pygame.init()
+voz = pyttsx3.init()
 # Marcão esteve aqui
 while True:
     nome = input("NickName:")
@@ -35,10 +38,13 @@ missileSound = pygame.mixer.Sound("base/missile.wav")
 explosaoSound = pygame.mixer.Sound("base/explosao.wav")
 pygame.mixer.music.load("base/ironsound.mp3")
 fonteMenu = pygame.font.SysFont("comicsans",18)
+nuvem = pygame.image.load("base/nuvem.png")
+nuvem = pygame.transform.scale(nuvem, (120, 80))
 
 def jogar():
     fundoMov1 = 0
-    fundoMov2 = 1400
+    fundoMov2 = 1000
+    velocidadeFundo = 1
     posicaoXPersona = 180
     posicaoYPersona = 60
     movimentoYPersona  = 0
@@ -46,7 +52,12 @@ def jogar():
     posicaoXMissel = 800
     posicaoYMissel = 100
     velocidadeMissel = 2
+    posicaoXNuvem = 1000
+    posicaoYNuvem = random.randint(0, 200)
+    velocidadeNuvem = 2
     pontos = 0
+    nivel_atual = "Iniciante"
+    pausado = False
     pygame.mixer.Sound.play(missileSound)
     pygame.mixer.music.play(-1)
     dificuldade = 20
@@ -54,6 +65,11 @@ def jogar():
         for evento in pygame.event.get():
             if evento.type == pygame.QUIT:
                 quit()
+            elif evento.type == pygame.KEYDOWN and evento.key == pygame.K_ESCAPE:
+                pygame.quit()
+                quit()
+            elif evento.type == pygame.KEYDOWN and evento.key == pygame.K_SPACE:
+                pausado = not pausado
                 movimentoXPersona = 0
             elif evento.type == pygame.KEYDOWN and evento.key == pygame.K_UP:
                 movimentoYPersona = -velocidadeMovPersona
@@ -64,7 +80,6 @@ def jogar():
             elif evento.type == pygame.KEYUP and evento.key == pygame.K_DOWN:
                 movimentoYPersona = 0
         
-                  
         posicaoYPersona = posicaoYPersona + movimentoYPersona            
         if posicaoXPersona < 0 :
             posicaoXPersona = 0
@@ -82,23 +97,46 @@ def jogar():
             posicaoXMissel = 800
             pontos = pontos + 1
             velocidadeMissel = velocidadeMissel + 1
+
+            novo_nivel = obter_nivel(pontos)
+
+            if novo_nivel != nivel_atual:
+                nivel_atual = novo_nivel
+                voz.say("Nivel " + novo_nivel)
+                voz.runAndWait()
+
+            velocidadeFundo = velocidadeFundo + 0.3
             posicaoYMissel = random.randint(0,1000)
-                            
+
+        posicaoXNuvem -= velocidadeNuvem
+
+        if posicaoXNuvem < -120:
+            posicaoXNuvem = 1000
+            posicaoYNuvem = random.randint(0, 200)                    
         tela.fill(branco)
         tela.blit(fundo, (fundoMov1,0) )
         tela.blit(fundo, (fundoMov2,0) )
-        fundoMov1 -= 1
-        fundoMov2 -= 1
-        if fundoMov1 <= -1129:
-            fundoMov1 = 1129
-        elif fundoMov2 <= -1129:
-            fundoMov2 = 1129
+        fundoMov1 -= velocidadeFundo
+        fundoMov2 -= velocidadeFundo
+        if fundoMov1 < -1000:
+            fundoMov1 = 1000
+        elif fundoMov2 < -1000:
+            fundoMov2 = 1000
         
-        
+        tela.blit(fundo, (fundoMov1,0))
+        tela.blit(fundo, (fundoMov2,0))
+
+        tela.blit(nuvem, (posicaoXNuvem, posicaoYNuvem))
+        velocidadeNuvem = random.randint(1, 5)
         tela.blit(dragon, (posicaoXPersona,posicaoYPersona))
         tela.blit( missel, (posicaoXMissel, posicaoYMissel) )
         texto = fonteMenu.render("Pontos: "+str(pontos), True, branco)
         tela.blit(texto, (700,15))
+        
+        nivel = obter_nivel(pontos)
+        textoNivel = fonteMenu.render("Nivel: " + nivel, True, branco)
+        tela.blit(textoNivel, (700, 40))
+        
             
         pixelsPersonaX = list(range(posicaoXPersona, posicaoXPersona+116))
         pixelsPersonaY = list(range(posicaoYPersona, posicaoYPersona+51))
