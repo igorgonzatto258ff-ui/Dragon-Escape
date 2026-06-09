@@ -44,9 +44,9 @@ DRAGON_HB_OX, DRAGON_HB_OY = 40, 55
 lanca_HB_W, lanca_HB_H = 80, 30
 lanca_HB_OX, lanca_HB_OY = 20, 75
 
-lancaSound = pygame.mixer.Sound("base/missile.wav")
-explosaoSound = pygame.mixer.Sound("base/explosao.wav")
-pygame.mixer.music.load("base/ironsound.mp3")
+lancaSound = pygame.mixer.Sound("base/lança_voando.wav")
+explosaoSound = pygame.mixer.Sound("base/dano.wav")
+pygame.mixer.music.load("base/musica_de_fundo.wav")
 
 fonteMenu = pygame.font.SysFont("comicsans", 18)
 fontePause = pygame.font.SysFont("Arial", 60, True)
