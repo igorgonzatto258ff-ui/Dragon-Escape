@@ -38,6 +38,8 @@ missileSound = pygame.mixer.Sound("base/missile.wav")
 explosaoSound = pygame.mixer.Sound("base/explosao.wav")
 pygame.mixer.music.load("base/ironsound.mp3")
 fonteMenu = pygame.font.SysFont("comicsans",18)
+fontePause = pygame.font.SysFont("Arial", 60, True)
+fonteAjuda = pygame.font.SysFont("Arial", 18)
 nuvem = pygame.image.load("base/nuvem.png")
 nuvem = pygame.transform.scale(nuvem, (120, 80))
 
@@ -80,7 +82,8 @@ def jogar():
             elif evento.type == pygame.KEYUP and evento.key == pygame.K_DOWN:
                 movimentoYPersona = 0
         
-        posicaoYPersona = posicaoYPersona + movimentoYPersona            
+        if not pausado:
+            posicaoYPersona = posicaoYPersona + movimentoYPersona            
         if posicaoXPersona < 0 :
             posicaoXPersona = 0
         elif posicaoXPersona > 685:
@@ -91,7 +94,8 @@ def jogar():
             posicaoYPersona = 450
             
             
-        posicaoXMissel = posicaoXMissel - velocidadeMissel
+        if not pausado:
+            posicaoXMissel = posicaoXMissel - velocidadeMissel
         if posicaoXMissel < -125:
             pygame.mixer.Sound.play(missileSound)
             posicaoXMissel = 800
@@ -108,7 +112,8 @@ def jogar():
             velocidadeFundo = velocidadeFundo + 0.3
             posicaoYMissel = random.randint(0,1000)
 
-        posicaoXNuvem -= velocidadeNuvem
+        if not pausado:
+            posicaoXNuvem -= velocidadeNuvem
 
         if posicaoXNuvem < -120:
             posicaoXNuvem = 1000
@@ -116,8 +121,9 @@ def jogar():
         tela.fill(branco)
         tela.blit(fundo, (fundoMov1,0) )
         tela.blit(fundo, (fundoMov2,0) )
-        fundoMov1 -= velocidadeFundo
-        fundoMov2 -= velocidadeFundo
+        if not pausado:
+            fundoMov1 -= velocidadeFundo
+            fundoMov2 -= velocidadeFundo
         if fundoMov1 < -1000:
             fundoMov1 = 1000
         elif fundoMov2 < -1000:
@@ -136,6 +142,14 @@ def jogar():
         nivel = obter_nivel(pontos)
         textoNivel = fonteMenu.render("Nivel: " + nivel, True, branco)
         tela.blit(textoNivel, (700, 40))
+
+        textoAjuda = fonteAjuda.render("Press Space to Pause Game", True, branco)
+        tela.blit(textoAjuda, (10, 10))
+
+        if pausado:
+            textoPause = fontePause.render("PAUSE", True, branco)
+            rectPause = textoPause.get_rect(center=(500, 350))
+            tela.blit(textoPause, rectPause)
         
             
         pixelsPersonaX = list(range(posicaoXPersona, posicaoXPersona+116))
